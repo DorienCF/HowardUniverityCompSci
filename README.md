@@ -1,2 +1,3 @@
 # HowardUniverityCompSci
-This is a repository of projects for CSCI 135-01
+This is a repository of projects for computer Science Classes
+
