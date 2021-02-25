@@ -5,7 +5,7 @@ import json
 import time
 from datetime import datetime
 import os
-import math 
+import math
 
 
 
@@ -16,7 +16,7 @@ class Encryption: # This Class Will control the encrption of the data
         print(f'Would you like to begin data preperation Yes or No?')
         DP_selection = input(">>")
         if DP_selection.upper() == "Yes" or "Y":
-            +Data_Preperation()
+            Data_Preperation()
         elif DP_selection.upper() == "NO" or "N":
             exit()
         else:
@@ -28,16 +28,18 @@ class Data_Preperation(Encryption): # This class will organize the text into it'
         path = input("Enter the absolute path of the file you would like to encrypt\n>> ") # opening the .txt file
         self.s = open(path,'r')
         self.plaintext = self.s.read()
-        
-
+        self.seccond = datetime.utcnow().second
+        cypher_text = open(f'{path}_encrypted.dor','x')
+        cypher_text.write("[")
         #turning the .txt into ascii
         for x in range(len(self.plaintext)):
-            loader = f'[{ord(self.plaintext[x])},{self.seccond}],'
-            print(loader)
-        ## Making the class generate a file 
-    
+            loader = f'({ord(self.plaintext[x])},{self.seccond}),'
+            cypher_text.write(loader)
+            ##print(loader)
+        ## Making the class generate a file
+        cypher_text.write("]")
 
-            
+
 
     def MESS_Encrypt(self):
         pass
@@ -59,13 +61,13 @@ class Decryption: # This class will control the decryption of the data
     pass
 
 ### Program Selection zone _______________________________________________________________________________________________________
-print("\t\t----------Welcome to the Knot---------\n would you like to 'Tie', 'pull' or 'Exit' the knot?\n ")
+print("\t\t----------Welcome to the Program---------\n would you like to 'Encrypt', 'Decrypt' or 'Exit'?\n ")
 selection = input(">> ")
-if selection.upper() == 'PULL':
-    ## this will be the decryption 
-    print(f'You entered {selection.upper()}\t Beginning encryption...')
+if selection.upper() == 'DECRYPTION' or "D":
+    ## this will be the decryption
+    print(f'You entered {selection.upper()}\t Beginning Decryption...')
     Decryption()
-elif selection.upper() == 'TIE':
+elif selection.upper() == 'Encryption' or 'E':
     # This will be the Encryption
     print(f'You entered {selection.upper()}\nYou have chosen to encrypt ... Nice')
     Encryption()
@@ -73,4 +75,3 @@ else:
     print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian. ')
     # this should return an
 ### ________________________________________________________________________________________________________________________
-
