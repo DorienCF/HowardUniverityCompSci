@@ -3,47 +3,51 @@ import functools
 from colorama import Fore, Back, Style
 import json
 import time
-from datetime import datetime
+from datetime import date, datetime
 import os
 import math
 
-
-
-class Encryption: # This Class Will control the encrption of the data
+#turning the .txt into ascii
+'''
+for x in range(len(self.plaintext)):
+    loader = f'({ord(self.plaintext[x])},{self.seccond}),'
+    cypher_text.write(loader)
+    ##print(loader)
+## Making the class generate a file
+cypher_text.write("]")
+'''
+class Encryption(): # This Class Will control the encrption of the data
     def __init__(self):
         self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
+        self.cypher_txt = open(f'{path}_encrypted.json_temp','w')
+        '''
         print(f'Would you like to begin data preperation Yes or No?')
         DP_selection = input(">>")
         if DP_selection.upper() == "Yes" or "Y":
-            Data_Preperation()
+            pass   
         elif DP_selection.upper() == "NO" or "N":
             exit()
         else:
             print("Error, you entered an incorrect phrase...")
         pass
-
-class Data_Preperation(Encryption): # This class will organize the text into it's proper data structure for encryption
-    def __init__(self):
-        path = input("Enter the absolute path of the file you would like to encrypt\n>> ") # opening the .txt file
-        self.s = open(path,'r')
-        self.plaintext = self.s.read()
-        self.seccond = datetime.utcnow().second
-        cypher_text = open(f'{path}_encrypted.dor','x')
-        cypher_text.write("[")
-        #turning the .txt into ascii
-        for x in range(len(self.plaintext)):
-            loader = f'({ord(self.plaintext[x])},{self.seccond}),'
-            cypher_text.write(loader)
-            ##print(loader)
-        ## Making the class generate a file
-        cypher_text.write("]")
-
-
-
+        '''
+        self.long = 5219283133417550597608921138394131714748003987111696388844721857021695621345566328693730284546120701185550350229748838662252951341253421746795 # long prime number used later
     def MESS_Encrypt(self):
+        #hour  = datetime.utcnow().hour; minit = datetime.utcnow().minute; sec = datetime.utcnow().seccond
+        print(f'Time test\t Hour:{self.hour}\tMinute:{self.minute}\tsec:{self.seccond}')
+        def upsil(long,):
+            pass
         pass
     def RSA_Encrypt(self):
+        def lcm(a,b):
+            return abs(a*b)//math.gcd(a,b)
+        p = 11; q = 7; n = p *q
+        lam_n = lcm(p-1,q-1)
+        e = 19
+        d = e % n 
+        #RSA_ENCRYPT =
+
         pass
     def Preperation_and_submission(self):
         pass
@@ -61,17 +65,41 @@ class Decryption: # This class will control the decryption of the data
     pass
 
 ### Program Selection zone _______________________________________________________________________________________________________
-print("\t\t----------Welcome to the Program---------\n would you like to 'Encrypt', 'Decrypt' or 'Exit'?\n ")
-selection = input(">> ")
-if selection.upper() == 'DECRYPTION' or "D":
-    ## this will be the decryption
-    print(f'You entered {selection.upper()}\t Beginning Decryption...')
+print("\t\t----------Welcome to the Program---------\n ")
+
+path = input("Enter the absolute path of the file you would like to encrypt\n>> ")
+seccond = datetime.utcnow().second; minit = datetime.utcnow().minute; hour = datetime.utcnow().hour
+s = open(path,'r'); plaintext = s.read()
+selection = input("would you like to 'Encrypt', 'Decrypt' or 'Exit'?\n>> ")
+
+if selection.upper() == 'DECRYPTION' or selection.upper() == "D":
+    ## this will be the decryption pathway
+    print(f'You entered {selection.upper()}\t Beginning Decryption...Nice')
     Decryption()
-elif selection.upper() == 'Encryption' or 'E':
-    # This will be the Encryption
+
+elif selection.upper() == 'Encryption' or selection.upper() == 'E':
+    # This will be the Encryption pathway
     print(f'You entered {selection.upper()}\nYou have chosen to encrypt ... Nice')
     Encryption()
+    cypher_txt=  open(f'{path}_encrypted_temp.json','w') 
+    for x in range(len(plaintext)):
+        loader = {
+            f'data_{x}':ord(plaintext[x]),
+            "Hour": hour,
+            "Minute": minit,
+            "Seccond": seccond,
+        }
+        json.dump(loader,cypher_txt)
+
 else:
-    print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian. ')
+    print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian ')
     # this should return an
-### ________________________________________________________________________________________________________________________
+### _______________________________________________________________________________________________________________________________
+
+ # opening the .txt file
+
+
+
+'''
+Basicly the section above creates the cypher text file and appends the 
+'''
