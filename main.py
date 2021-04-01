@@ -1,6 +1,6 @@
 ## Start UP
 import functools
-from colorama import Fore, Back, Style
+#from colorama import Fore, Back, Style
 import json
 import time
 from datetime import date, datetime
@@ -20,7 +20,7 @@ class Encryption(): # This Class Will control the encrption of the data
     def __init__(self):
         self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
-        self.cypher_txt = open(f'{path}_encrypted.json_temp','w')
+        self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
         '''
         print(f'Would you like to begin data preperation Yes or No?')
         DP_selection = input(">>")
@@ -79,18 +79,20 @@ if selection.upper() == 'DECRYPTION' or selection.upper() == "D":
 
 elif selection.upper() == 'Encryption' or selection.upper() == 'E':
     # This will be the Encryption pathway
+    package = {}
     print(f'You entered {selection.upper()}\nYou have chosen to encrypt ... Nice')
+    with open(f'{path}_json_temp.json','w') as cypher_txt:
+        for x in range(len(plaintext)):
+         package += {
+            f'data_{x}': f'{ord(plaintext[x])}',
+            'Hour':f'{hour}',
+            'Minute':f'{minit}',
+            'Secconds':f'{seccond}',
+            
+            },
+        json.dump(package,cypher_txt)
+    cypher_txt.close()
     Encryption()
-    cypher_txt=  open(f'{path}_encrypted_temp.json','w') 
-    for x in range(len(plaintext)):
-        loader = {
-            f'data_{x}':ord(plaintext[x]),
-            "Hour": hour,
-            "Minute": minit,
-            "Seccond": seccond,
-        }
-        json.dump(loader,cypher_txt)
-
 else:
     print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian ')
     # this should return an
@@ -100,6 +102,5 @@ else:
 
 
 
-'''
-Basicly the section above creates the cypher text file and appends the 
-'''
+
+#Basicly the section above creates the cypher text file and appends the 
