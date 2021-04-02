@@ -1,0 +1,7 @@
+## this is a test docuemnt to see if I can iterate over a JSON docuemnt
+import json
+with open('test_Doc.txt_json_temp.json','r') as encoded:
+    information = json.load(encoded)
+    x=information[0]
+    y 
+
