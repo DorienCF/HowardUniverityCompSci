@@ -2,10 +2,9 @@
 import functools
 #from colorama import Fore, Back, Style
 import json
-import time
 from datetime import date, datetime
-import os
 import math
+import Encryption_functions
 
 #turning the .txt into ascii
 '''
@@ -20,44 +19,57 @@ class Encryption(): # This Class Will control the encrption of the data ## uncer
     def __init__(self):
         self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
-        self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
-    
-        self.long = 5219283133417550597608921138394131714748003987111696388844721857021695621345566328693730284546120701185550350229748838662252951341253421746795 # long prime number used later
-    def MESS_Encrypt(self):
-        #hour  = datetime.utcnow().hour; minit = datetime.utcnow().minute; sec = datetime.utcnow().seccond
-        print(f'Time test\t Hour:{self.hour}\tMinute:{self.minute}\tsec:{self.seccond}')
-        def upsil(long,):
-            pass
-        pass
-    def RSA_Encrypt(self):
-        def lcm(a,b):
-            return abs(a*b)//math.gcd(a,b)
-        p = 11; q = 7; n = p *q
-        lam_n = lcm(p-1,q-1)
-        e = 19
-        d = e % n 
-        #RSA_ENCRYPT =
+        #self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
+        f = open('test_Doc.txt_json_temp.json');data = json.load(f)
+        g = open('ThetaList.json');Theta_list = json.load(g)
+        Hour = data[0]["Hour"];Hour=int(Hour)
+        Minute = data[0]['Minute'];Minute=int(Minute)
+        Secconds=data[0]['Secconds'];Secconds=int(Secconds)
+        self.cypher_txt =[]
+        for i in range(len(data[0]['data_'])):				
+            x = data[0]['data_'][i]
+            y = Encryption_functions.MESS_Encrypt(x,Hour,Minute,Secconds)
+            z=  Encryption_functions.RSA_Encrypt(y)
+            self.cypher_txt.append(z)
+        # Preperation_and_Submission
+        package = { 
+            'data_':self.cypher_txt,
+            'Hour':f'{hour}',
+            'Minute':f'{minit}',
+            'Secconds':f'{seccond}'
+             },
+        with open(f'{path}.encrypted.json','w') as h:
+            json.dump(package,h)
 
-        pass
-    def Preperation_and_submission(self):
-        pass
-    pass
 
 class Decryption: # This class will control the decryption of the data || under construction
     def __init__(self):
-        pass
-    def RSA_Decrypt(self):
-        pass
-    def MESS_Decrypt(self):
-        pass
-    def Preperation_and_Submission(self):
-        pass
-    pass
+        self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
+        print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
+        #self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
+        f = open(path);data = json.load(f)
+        g = open('ThetaList.json');Theta_list = json.load(g)
+        Hour = data[0]["Hour"];Hour=int(Hour)
+        Minute = data[0]['Minute'];Minute=int(Minute)
+        Secconds=data[0]['Secconds'];Secconds=int(Secconds)
+        self.cypher_txt =[]
+        for i in range(len(data[0]['data_'])):				
+            x = data[0]['data_'][i]
+            y = Encryption_functions.MESS_Decrypt(x,Hour,Minute,Secconds)
+            z=  Encryption_functions.RSA_Decrypt(y)
+            self.cypher_txt.append(z)
+        # Preperation_and_Submission
+        with open(f'{path}.txt','w') as h:
+            for i in range(len(self.cypher_txt)):
+                #h.write(chr(self.cypher_txt[i]))
+                print(self.cypher_txt[i])
+        
 
 ### Program Selection zone _______________________________________________________________________________________________________
-print("\t\t----------Welcome to the Program---------\n ")
+print("\t\t----------Welcome to the Program---------\n")
 
-path = input("Enter the absolute path of the file you would like to encrypt\n>> ")
+path = input("Enter the absolute path of the file you would like to encrypt or decrypt\n>> ")
+
 seccond = datetime.utcnow().second; minit = datetime.utcnow().minute; hour = datetime.utcnow().hour
 s = open(path,'r'); plaintext = s.read()
 selection = input("would you like to 'Encrypt', 'Decrypt' or 'Exit'?\n>> ")
@@ -71,6 +83,7 @@ elif selection.upper() == 'Encrypt' or selection.upper() == 'E':
     # This will be the Encryption pathway
     package = []
     print(f'You entered {selection.upper()}\nYou have chosen to encrypt ... Nice')
+    ## pretty much data prep
     with open(f'{path}_json_temp.json','w') as cypher_txt:
         data = []
         for i in range(len(plaintext)):
@@ -85,15 +98,7 @@ elif selection.upper() == 'Encrypt' or selection.upper() == 'E':
                             
                             
     cypher_txt.close()
-    Encryption()
+    Encryption() # goes to the encyrption class
 else:
     print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian ')
-    # this should return an
-### _______________________________________________________________________________________________________________________________
 
- # opening the .txt file
-
-
-
-
-#Basicly the section above creates the cypher text file and appends the 
