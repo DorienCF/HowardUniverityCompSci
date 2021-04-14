@@ -59,7 +59,7 @@ class Decryption: # This class will control the decryption of the data || under 
             z=  Encryption_functions.RSA_Decrypt(y)
             self.cypher_txt.append(z)
         # Preperation_and_Submission
-        with open(f'{path}.txt','w') as h:
+        with open(f'{path}.DECRYPTED.txt','w') as h:
             for i in range(len(self.cypher_txt)):
                 #h.write(chr(self.cypher_txt[i]))
                 print(self.cypher_txt[i])
