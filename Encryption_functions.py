@@ -65,9 +65,9 @@ def MESS_Decrypt(message,Hour,Minute,Secconds):
     theta = "+"
     def symetric_encrypt(data,theta, delta, sigma):
         if theta == "+":
-            EnC = (data^2 - delta) / sigma
+            EnC = (math.sqrt(data)) - (delta/sigma)
         elif theta == "*":
-            EnC = (data^2 / delta) / sigma
+            EnC = (math.sqrt(data)) / (delta/sigma)
         else:
             print("Theta Error")    
         return EnC
@@ -82,6 +82,6 @@ def RSA_Decrypt(message):
     e = 19
     d = e %n
     
-    pt = message**d%lam_n
+    pt = message^d %n
     return pt
    

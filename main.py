@@ -6,22 +6,15 @@ from datetime import date, datetime
 import math
 import Encryption_functions
 
-#turning the .txt into ascii
-'''
-for x in range(len(self.plaintext)):
-    loader = f'({ord(self.plaintext[x])},{self.seccond}),'
-    cypher_text.write(loader)
-    ##print(loader)
-## Making the class generate a file
-cypher_text.write("]")
-'''
-class Encryption(): # This Class Will control the encrption of the data ## uncer construction
+
+class Encryption(): 
     def __init__(self):
         self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
         #self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
         f = open('test_Doc.txt_json_temp.json');data = json.load(f)
         g = open('ThetaList.json');Theta_list = json.load(g)
+
         Hour = data[0]["Hour"];Hour=int(Hour)
         Minute = data[0]['Minute'];Minute=int(Minute)
         Secconds=data[0]['Secconds'];Secconds=int(Secconds)
@@ -29,7 +22,7 @@ class Encryption(): # This Class Will control the encrption of the data ## uncer
         for i in range(len(data[0]['data_'])):				
             x = data[0]['data_'][i]
             y = Encryption_functions.MESS_Encrypt(x,Hour,Minute,Secconds)
-            z=  Encryption_functions.RSA_Encrypt(y)
+            z = Encryption_functions.RSA_Encrypt(y)
             self.cypher_txt.append(z)
         # Preperation_and_Submission
         package = { 
@@ -54,18 +47,20 @@ class Decryption: # This class will control the decryption of the data || under 
         Secconds=data[0]['Secconds'];Secconds=int(Secconds)
         self.cypher_txt =[]
         for i in range(len(data[0]['data_'])):				
+            ## x,y,z calls all the nerd stuff from the other python file.
             x = data[0]['data_'][i]
-            y = Encryption_functions.MESS_Decrypt(x,Hour,Minute,Secconds)
-            z=  Encryption_functions.RSA_Decrypt(y)
+            y = Encryption_functions.RSA_Decrypt(x)
+            z=  Encryption_functions.MESS_Decrypt(y,Hour,Minute,Secconds)
+            print(x,y,z)
             self.cypher_txt.append(z)
         # Preperation_and_Submission
-        with open(f'{path}.DECRYPTED.txt','w') as h:
+        with open(f'{path}.txt','w') as h:
             for i in range(len(self.cypher_txt)):
                 #h.write(chr(self.cypher_txt[i]))
-                print(self.cypher_txt[i])
+                json.dump(self.cypher_txt[i])
         
 
-### Program Selection zone _______________________________________________________________________________________________________
+
 print("\t\t----------Welcome to the Program---------\n")
 
 path = input("Enter the absolute path of the file you would like to encrypt or decrypt\n>> ")
@@ -83,12 +78,12 @@ elif selection.upper() == 'Encrypt' or selection.upper() == 'E':
     # This will be the Encryption pathway
     package = []
     print(f'You entered {selection.upper()}\nYou have chosen to encrypt ... Nice')
-    ## pretty much data prep
+    ## pretty much data prep.. kinda boring
     with open(f'{path}_json_temp.json','w') as cypher_txt:
         data = []
         for i in range(len(plaintext)):
             data.append(ord(plaintext[i]))
-            package = { 
+        package = { 
             f'data_':data ,
             'Hour':f'{hour}',
             'Minute':f'{minit}',
@@ -98,7 +93,7 @@ elif selection.upper() == 'Encrypt' or selection.upper() == 'E':
                             
                             
     cypher_txt.close()
-    Encryption() # goes to the encyrption class
+    Encryption() 
 else:
-    print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian ')
+    print(f'you entered {selection.upper()}\nError: you have entered an invalid option ... please try agian ') 
 
