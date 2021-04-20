@@ -4,7 +4,7 @@ import functools
 import json
 from datetime import date, datetime
 import math
-import Encryption_functions
+import Encryption_Functions
 
 
 class Encryption(): 
@@ -12,25 +12,33 @@ class Encryption():
         self.hour = datetime.utcnow().hour;self.minute = datetime.utcnow().minute;self.seccond = datetime.utcnow().second
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
         #self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
-        f = open('test_Doc.txt_json_temp.json');data = json.load(f)
-        g = open('ThetaList.json');Theta_list = json.load(g)
-
+        f = open('test.txt_json_temp.json');data = json.load(f)
+        #g = open('ThetaList.json');Theta_list = json.load(g)
+        self.long=5219283133417550597608921138394131714748003987111696388844721857021695621345566328693730284546120701185550350229748838662252951341253421746795
         Hour = data[0]["Hour"];Hour=int(Hour)
         Minute = data[0]['Minute'];Minute=int(Minute)
         Secconds=data[0]['Secconds'];Secconds=int(Secconds)
         self.cypher_txt =[]
-        for i in range(len(data[0]['data_'])):				
+        self.theta ="+"
+        for i in range(len(data[0]['data_'])):
             x = data[0]['data_'][i]
-            y = Encryption_functions.MESS_Encrypt(x,Hour,Minute,Secconds)
-            z = Encryption_functions.RSA_Encrypt(y)
-            self.cypher_txt.append(z)
+            self.Upsilon = Encryption_Functions.Encrypt.upsil(x,self.long)
+            self.Delta = Encryption_Functions.Encrypt.delt(Hour,Secconds,self.Upsilon)
+            self.Sigma = Encryption_Functions.Encrypt.sig(Secconds,Minute,self.Upsilon)
+            self.Cypher_Text = Encryption_Functions.Encrypt.symetric_encrypt(x,self.theta,self.Delta,self.Sigma)
+            self.FullCypherText = Encryption_Functions.Encrypt.RSA_Encrypt(self.Cypher_Text)			
+            self.cypher_txt.append(self.FullCypherText)
         # Preperation_and_Submission
         package = { 
             'data_':self.cypher_txt,
             'Hour':f'{hour}',
             'Minute':f'{minit}',
-            'Secconds':f'{seccond}'
+            'Secconds':f'{seccond}',
+            'Delta':f'{self.Delta}',
+            'Sigma':f'{self.Sigma}'
              },
+             
+             
         with open(f'{path}.encrypted.json','w') as h:
             json.dump(package,h)
 
@@ -41,23 +49,28 @@ class Decryption: # This class will control the decryption of the data || under 
         print(f'The current UTC time is: {self.hour}:{self.minute}:{self.seccond}\n')
         #self.cypher_txt = open(f'{path}_encrypted_temp.json','r+')
         f = open(path);data = json.load(f)
-        g = open('ThetaList.json');Theta_list = json.load(g)
+        #g = open('ThetaList.json');Theta_list = json.load(g)
+        self.long=5219283133417550597608921138394131714748003987111696388844721857021695621345566328693730284546120701185550350229748838662252951341253421746795
+        
         Hour = data[0]["Hour"];Hour=int(Hour)
         Minute = data[0]['Minute'];Minute=int(Minute)
         Secconds=data[0]['Secconds'];Secconds=int(Secconds)
+        Delta = data[0]['Delta']; Delta = int(Delta)
+        Sigma = data[0]['Sigma']; Sigma = int(Sigma)
         self.cypher_txt =[]
+        theta = "+"
         for i in range(len(data[0]['data_'])):				
             ## x,y,z calls all the nerd stuff from the other python file.
             x = data[0]['data_'][i]
-            y = Encryption_functions.RSA_Decrypt(x)
-            z=  Encryption_functions.MESS_Decrypt(y,Hour,Minute,Secconds)
+            y = Encryption_Functions.Decrypt.RSA_Decrypt(x)
+            z=  Encryption_Functions.Decrypt.symetric_decrypt(y,theta,Delta,Sigma)
             print(x,y,z)
             self.cypher_txt.append(z)
         # Preperation_and_Submission
         with open(f'{path}.txt','w') as h:
             for i in range(len(self.cypher_txt)):
-                #h.write(chr(self.cypher_txt[i]))
-                json.dump(self.cypher_txt[i])
+                h.write(str(self.cypher_txt[i]))
+
         
 
 
